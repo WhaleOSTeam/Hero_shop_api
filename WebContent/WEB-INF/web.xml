@@ -129,4 +129,24 @@
     <servlet-name>register</servlet-name>
     <url-pattern>/registerApi</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>activeApi</display-name>
+    <servlet-name>activeApi</servlet-name>
+    <servlet-class>com.itheima.web.ajaxApi.ActiveUserApi</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>activeApi</servlet-name>
+    <url-pattern>/activeApi</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>userApi</display-name>
+    <servlet-name>userApi</servlet-name>
+    <servlet-class>com.itheima.web.ajaxApi.UserApi</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>userApi</servlet-name>
+    <url-pattern>/userApi</url-pattern>
+  </servlet-mapping>
 </web-app>

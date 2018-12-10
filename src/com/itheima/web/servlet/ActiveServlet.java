@@ -12,7 +12,8 @@ import com.itheima.service.UserService;
 public class ActiveServlet extends HttpServlet {
 
 	/**
-	 * 
+	 * 用来激活邮箱
+	 * http://localhost:7070/Hero_shop_api/active?activeCode="+activeCode+"
 	 */
 	private static final long serialVersionUID = 1L;
 

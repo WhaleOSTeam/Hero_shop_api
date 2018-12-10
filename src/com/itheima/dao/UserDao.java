@@ -1,9 +1,12 @@
 package com.itheima.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import com.itheima.domain.User;
@@ -23,8 +26,8 @@ public class UserDao {
 	//激活
 	public void active(String activeCode) throws SQLException {
 		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-		String sql = "update user set state=? where code=?";
-		runner.update(sql, 1,activeCode);
+		String sql1 = "update user set state=? where code=?";
+		runner.update(sql1,1,activeCode);
 	}
 
 	//校验用户名是否存在
@@ -40,6 +43,16 @@ public class UserDao {
 		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
 		String sql = "select * from user where username=? and password=?";
 		return runner.query(sql, new BeanHandler<User>(User.class), username,password);
+	}
+    //判断用户是否激活
+	public boolean getActiveState(String username) throws SQLException {
+		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql2 = "select state from user where username=?";
+		
+		List<Object> s = runner.query(sql2, new ColumnListHandler("state"), username);
+		int stat = (int)s.get(0);
+		
+		return stat == 1;
 	}
 
 }

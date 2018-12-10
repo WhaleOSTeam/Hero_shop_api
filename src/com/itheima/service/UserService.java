@@ -23,11 +23,13 @@ public class UserService {
 	//激活
 	public void active(String activeCode) {
 		UserDao dao = new UserDao();
+		//Boolean isActive = null ;
 		try {
 			dao.active(activeCode);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		//return isActive;
 	}
 
 	//校验用户名是否存在
@@ -46,6 +48,11 @@ public class UserService {
 	public User login(String username, String password) throws SQLException {
 		UserDao dao = new UserDao();
 		return dao.login(username,password);
+	}
+
+	public boolean getActiveState(String username) throws SQLException {
+		UserDao dao = new UserDao();
+		return dao.getActiveState(username);
 	}
 
 }
