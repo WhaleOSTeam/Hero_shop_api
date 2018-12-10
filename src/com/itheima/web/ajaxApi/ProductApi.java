@@ -20,12 +20,12 @@ public class ProductApi extends BaseServlet{
 	private static final long serialVersionUID = 1L;
 	
 	//显示首页热门商品和最新商品
+	//http://localhost:7070/Hero_shop_api/productApi?method=index&prdTpye=new
 	public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductService service = new ProductService();
 		Gson gson = new Gson();
 		String prolist = "";
 		String isHot = request.getParameter("prdTpye");
-		System.out.println(isHot == "new");
 		if(isHot.equals("hot")) {
 			//准备热门商品---List<Product>
 			List<Product> hotProductList = service.findHotProductList();
@@ -36,13 +36,13 @@ public class ProductApi extends BaseServlet{
 			List<Product> newProductList = service.findNewProductList();
 			prolist = gson.toJson(newProductList);
 		}
-		
 
 		response.setContentType("text/html;charset=UTF-8");
 		response.getWriter().write(prolist);
 
 	}
 	//显示商品的类别的的功能
+	//http://localhost:7070/Hero_shop_api/productApi?method=categoryList
 	public void categoryList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductService service = new ProductService();
 		//先从缓存中查询categoryList 如果有直接使用 没有在从数据库中查询 存到缓存中
@@ -58,7 +58,6 @@ public class ProductApi extends BaseServlet{
 			categoryListJson = gson.toJson(categoryList);
 			jedis.set("categoryListJson", categoryListJson);
 		}
-
 		response.setContentType("text/html;charset=UTF-8");
 		response.getWriter().write(categoryListJson);
 	}
