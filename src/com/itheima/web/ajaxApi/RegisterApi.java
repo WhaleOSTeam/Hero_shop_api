@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.Converter;
+import org.junit.Test;
 
 import com.google.gson.Gson;
 import com.itheima.domain.BackMassage;
@@ -24,13 +26,13 @@ import com.itheima.service.UserService;
 import com.itheima.utils.CommonsUtils;
 import com.itheima.utils.MailUtils;
 
-public class registerApi extends HttpServlet {
+public class RegisterApi extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public registerApi() {
+    public RegisterApi() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -82,12 +84,24 @@ public class registerApi extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-    
+    @Test
+    public void send(){
+    	try {
+			MailUtils.sendMail("438081265@qq.com","nihao");
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 	private void sendEmail(User user ,String activeCode) {
 		String emailMsg = "恭喜您注册成功，请点击下面的连接进行激活账户"
 				+ "<a href='http://localhost:7070/Hero_shop_api/activeApi?activeCode="+activeCode+"'>"
 						+ "http://localhost:7070/Hero_shop_api/activeApi?activeCode="+activeCode+"</a>";
 		try {
+			System.out.println(user.getEmail());
 			MailUtils.sendMail(user.getEmail(),emailMsg);
 		} catch (MessagingException e) {
 			e.printStackTrace();

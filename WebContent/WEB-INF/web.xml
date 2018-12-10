@@ -123,7 +123,7 @@
     <description></description>
     <display-name>register</display-name>
     <servlet-name>register</servlet-name>
-    <servlet-class>com.itheima.web.ajaxApi.registerApi</servlet-class>
+    <servlet-class>com.itheima.web.ajaxApi.RegisterApi</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>register</servlet-name>

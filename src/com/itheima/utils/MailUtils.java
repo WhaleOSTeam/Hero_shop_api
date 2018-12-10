@@ -18,7 +18,7 @@ public class MailUtils {
 	public static void sendMail(String email, String emailMsg)
 			throws AddressException, MessagingException {
 		// 1.创建一个程序与邮件服务器会话对象 Session
-
+		System.out.println(email);
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "SMTP");
 		props.setProperty("mail.host", "smtp.sina.com");
