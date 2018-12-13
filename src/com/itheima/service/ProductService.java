@@ -51,7 +51,7 @@ public class ProductService {
 		return categoryList;
 	}
 
-	public PageBean findProductListByCid(String cid,int currentPage,int currentCount) {
+	public PageBean<Product> findProductListByCid(String cid,int currentPage,int currentCount) {
 		
 		ProductDao dao = new ProductDao();
 		

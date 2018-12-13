@@ -38,6 +38,8 @@ public class Httpfilter implements Filter {
 	    res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, OPTIONS, DELETE");
 	    // 响应头设置
 	    res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-requested-with, X-Custom-Header, HaiYi-Access-Token");
+	    //设置响应的编码格式
+	    res.setContentType("text/html;charset=UTF-8");
 //	    if ("OPTIONS".equals(req.getMethod())){
 //	    	res.setStatus(HttpStatus.SC_NO_CONTENT);
 //	    }
