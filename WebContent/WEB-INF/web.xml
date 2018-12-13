@@ -149,4 +149,14 @@
     <servlet-name>userApi</servlet-name>
     <url-pattern>/userApi</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>categoryApi</display-name>
+    <servlet-name>categoryApi</servlet-name>
+    <servlet-class>com.itheima.web.ajaxApi.AdminCategoryApi</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>categoryApi</servlet-name>
+    <url-pattern>/categoryApi</url-pattern>
+  </servlet-mapping>
 </web-app>

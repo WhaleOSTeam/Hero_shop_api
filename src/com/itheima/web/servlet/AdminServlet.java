@@ -1,6 +1,7 @@
 package com.itheima.web.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +63,7 @@ public class AdminServlet extends BaseServlet {
 		
 	}
 
-	public void findAllCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void findAllCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
 		//提供一个List<Category> 转成json字符串
 		AdminService service = (AdminService) BeanFactory.getBean("adminService");

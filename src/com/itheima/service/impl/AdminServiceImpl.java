@@ -11,8 +11,40 @@ import com.itheima.domain.Product;
 import com.itheima.service.AdminService;
 
 public class AdminServiceImpl implements AdminService{
+	@Override
+	public Boolean updataCategory(String cid, String cname) {
+		AdminDao dao = new AdminDao();
+		return dao.updataCategory(cid,cname);
+	}
+	@Override
+	public Boolean categoryState(String cid, int openStat) {
+		AdminDao dao = new AdminDao();
+		return dao.categoryState(cid,openStat);
+	}
+	@Override
+	public Boolean addCategory(Category c) throws SQLException{
+		AdminDao dao = new AdminDao();
+		
+		try {
+			return dao.addCategory(c);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@Override
+	public List<Category> findCategoryByState(int openStat) {
+		AdminDao dao = new AdminDao();
+		try {
+			return dao.findCategoryByState(openStat);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-	public List<Category> findAllCategory() {
+	@Override
+	public List<Category> findAllCategory() throws SQLException {
 		AdminDao dao = new AdminDao();
 		try {
 			return dao.findAllCategory();
@@ -21,7 +53,6 @@ public class AdminServiceImpl implements AdminService{
 			return null;
 		}
 	}
-
 	public void saveProduct(Product product) throws SQLException {
 		AdminDao dao = new AdminDao();
 		dao.saveProduct(product);
@@ -48,5 +79,6 @@ public class AdminServiceImpl implements AdminService{
 		}
 		return mapList;
 	}
+	
 	
 }

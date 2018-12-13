@@ -31,6 +31,7 @@ public class Httpfilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletResponse res = (HttpServletResponse) response;
+		HttpServletRequest req = (HttpServletRequest) request;
 	    //HttpServletRequest req = (HttpServletRequest) request;
 	    // 指定允许其他域名访问
 	    res.setHeader("Access-Control-Allow-Origin", "*");
@@ -40,6 +41,7 @@ public class Httpfilter implements Filter {
 	    res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-requested-with, X-Custom-Header, HaiYi-Access-Token");
 	    //设置响应的编码格式
 	    res.setContentType("text/html;charset=UTF-8");
+	    req.setCharacterEncoding("UTF-8");
 //	    if ("OPTIONS".equals(req.getMethod())){
 //	    	res.setStatus(HttpStatus.SC_NO_CONTENT);
 //	    }
