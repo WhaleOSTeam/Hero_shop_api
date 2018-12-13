@@ -11,6 +11,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.Test;
+
 import com.google.gson.Gson;
 import com.itheima.domain.Category;
 import com.itheima.domain.PageBean;
@@ -54,17 +56,23 @@ public class ProductApi extends BaseServlet{
 		//1、获得jedis对象 连接redis数据库
 		Jedis jedis = JedisPoolUtils.getJedis();
 		String categoryListJson = jedis.get("categoryListJson");
+	 
 		//2、判断categoryListJson是否为空
 		if(categoryListJson==null){
-			System.out.println("缓存没有数据 查询数据库");
+			//System.out.println("缓存没有数据 查询数据库");
 			//准备分类数据
 			List<Category> categoryList = service.findAllCategory();
 			Gson gson = new Gson();
 			categoryListJson = gson.toJson(categoryList);
 			jedis.set("categoryListJson", categoryListJson);
 		}
-		response.setContentType("text/html;charset=UTF-8");
 		response.getWriter().write(categoryListJson);
+	}
+	@Test
+	public void testRidis() {
+		Jedis jedis = JedisPoolUtils.getJedis();
+		String categoryListJson = jedis.get("categoryListJson");
+		System.out.println(categoryListJson);
 	}
 	/*
 	 * 根据商品的类别获得商品的列表

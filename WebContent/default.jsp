@@ -7,9 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
+    <div>comming soon</div>
+	<%-- <%
 		response.sendRedirect(request.getContextPath()+"/product?method=index");
 		
-	%>
+	%> --%>
 </body>
 </html>

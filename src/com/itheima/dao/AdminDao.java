@@ -12,12 +12,52 @@ import com.itheima.domain.Category;
 import com.itheima.domain.Order;
 import com.itheima.domain.Product;
 import com.itheima.utils.DataSourceUtils;
+import com.itheima.utils.JedisPoolUtils;
+
+import redis.clients.jedis.Jedis;
 
 public class AdminDao {
+	// category 改
+	public Boolean categoryState(String cid, int openStat) {
+		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql = "UPDATE category set isOpen = ? where cid = ? ";
+		try {
+			int res = runner.update(sql,openStat,cid);
+			if(res > 0) {//操作成功清空redis
+				Jedis jedis = JedisPoolUtils.getJedis();
+				jedis.del("categoryListJson");
+			}
+			return res > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public Boolean updataCategory(String cid, String cname) {
+		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql = "UPDATE category set cname = ? where cid = ? ";
+		try {
+			int res = runner.update(sql,cname,cid);
+			if(res > 0) {
+				Jedis jedis = JedisPoolUtils.getJedis();
+				jedis.del("categoryListJson");
+			}
+			return  res > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
     public Boolean addCategory(Category category) throws SQLException{
     	QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
     	String sql = "insert into category values(?,?,?)";
     	int re = runner.update(sql,category.getCid(),category.getCname(),category.getIsOpen());
+    	if(re > 0) {
+    		Jedis jedis = JedisPoolUtils.getJedis();
+			jedis.del("categoryListJson");
+    	}
 		return re > 0;
     }
     public List<Category> findCategoryByState(int openStat) throws SQLException {
@@ -30,7 +70,7 @@ public class AdminDao {
 		String sql = "select * from category";
 		return runner.query(sql, new BeanListHandler<Category>(Category.class));
 	}
-
+    // product
 	public void saveProduct(Product product) throws SQLException {
 		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
 		String sql = "insert into product values(?,?,?,?,?,?,?,?,?,?)";
@@ -52,27 +92,6 @@ public class AdminDao {
 					" where i.pid=p.pid and i.oid=? ";
 		return runner.query(sql, new MapListHandler(), oid);
 	}
-	public Boolean categoryState(String cid, int openStat) {
-		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-		String sql = "UPDATE category set isOpen = ? where cid = ? ";
-		try {
-			return runner.update(sql,openStat,cid) > 0;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
-	public Boolean updataCategory(String cid, String cname) {
-		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-		String sql = "UPDATE category set cname = ? where cid = ? ";
-		try {
-			return runner.update(sql,cname,cid) > 0;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
+	
 
 }

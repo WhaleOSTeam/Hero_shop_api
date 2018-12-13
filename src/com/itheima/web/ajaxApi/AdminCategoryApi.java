@@ -19,7 +19,10 @@ import com.itheima.domain.Category;
 import com.itheima.service.AdminService;
 import com.itheima.utils.BeanFactory;
 import com.itheima.utils.CommonsUtils;
+import com.itheima.utils.JedisPoolUtils;
 import com.itheima.web.servlet.BaseServlet;
+
+import redis.clients.jedis.Jedis;
 
 public class AdminCategoryApi extends BaseServlet{
 	private static final long serialVersionUID = 1L;
@@ -28,28 +31,46 @@ public class AdminCategoryApi extends BaseServlet{
 	 * http://localhost:7070/Hero_shop_api/categoryApi?method=findAllCategory&isOpen=
 	 * */
 	public void findAllCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+		Gson gson = new Gson();
+		String json = "";
 		//提供一个List<Category> 转成json字符串
 		AdminService service = (AdminService) BeanFactory.getBean("adminService");
 		List<Category> categoryList = null ;
 		String isOpen = request.getParameter("isOpen");
 		System.out.println(isOpen == null || isOpen.equals(""));
+		//全部查询
 		if(isOpen == null || isOpen.equals("")) {
-			categoryList = service.findAllCategory();
+			Jedis jedis = JedisPoolUtils.getJedis();
+			String categoryListJson = jedis.get("categoryListJson");
+			if(categoryListJson==null){
+				//从数据库中查
+				System.out.println("从数据库中查");
+				categoryList = service.findAllCategory();
+				json = gson.toJson(categoryList);
+				jedis.set("categoryListJson", json);
+			}else {
+				//使用缓存中的数据
+				 System.out.println("从redis中查");
+				json = categoryListJson;
+			}
+			
 		}
+		//条件查询
 		else{
 			int openStat =   Integer.parseInt(isOpen);
 			categoryList = service.findCategoryByState(openStat);
+			json = gson.toJson(categoryList);
 		}
-		Gson gson = new Gson();
-		String json = gson.toJson(categoryList);
 		
-		response.setContentType("text/html;charset=UTF-8");
+		 
+		
+	
 		
 		response.getWriter().write(json);
 	}
 	/*
 	 *  增加一个分类 
-	 *  http://localhost:7070/Hero_shop_api/categoryApi?method=addCategory&cname=打折皮肤&isOpen=0
+	 *  http://39.105.112.212:8080/Hero_shop_api/categoryApi?method=addCategory&cname=清仓处理&isOpen=0
 	 **/
 	public void addCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		//提供一个List<Category> 转成json字符串
