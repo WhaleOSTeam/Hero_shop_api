@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.itheima.dao.CategoryDao">
+     <!--配置一个resultMap 指定返回的类型 -->
+    <resultMap id="category" type="com.itheima.domain.Category">
+        <id column="cid" property="cid" />
+        <result column="cname" property="cname" />
+        <result column="isOpen" property="isOpen" />
+    </resultMap>
+ 	<select id="findAllCategory" resultMap="category">
+ 		select * from category
+ 	</select>
+ </mapper>
