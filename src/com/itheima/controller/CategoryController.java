@@ -34,6 +34,7 @@ public class CategoryController {
 		if(isOpen == null || isOpen.equals("")) {
 			categoryList = service.findAllCategory();
 		}
+		System.out.println(categoryList);
 		return categoryList;
 	}
 }
