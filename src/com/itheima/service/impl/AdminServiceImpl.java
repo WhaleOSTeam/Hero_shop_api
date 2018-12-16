@@ -46,12 +46,7 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<Category> findAllCategory() throws SQLException {
 		AdminDao dao = new AdminDao();
-		try {
-			return dao.findAllCategory();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return dao.findAllCategory();
 	}
 	public void saveProduct(Product product) throws SQLException {
 		AdminDao dao = new AdminDao();
