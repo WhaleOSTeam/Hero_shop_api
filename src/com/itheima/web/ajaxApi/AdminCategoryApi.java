@@ -28,6 +28,7 @@ public class AdminCategoryApi extends BaseServlet{
 	private static final long serialVersionUID = 1L;
 	/*
 	 * 查所有的分类
+	 * http://39.105.112.212:8080/Hero_shop_api/categoryApi?method=findAllCategory&isOpen=
 	 * http://localhost:7070/Hero_shop_api/categoryApi?method=findAllCategory&isOpen=
 	 * */
 	public void findAllCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -113,7 +114,8 @@ public class AdminCategoryApi extends BaseServlet{
 	}
 	/*
 	 *  编辑一个分类
-	 *  http://localhost:7070/Hero_shop_api/categoryApi?method=updataCategory&cid=3cc21f25-687a-433a-8a3e-62a0796a15bd&cname=
+	 *  http://localhost:7070/Hero_shop_api/categoryApi?
+	 *  method=updataCategory&cid=&cname=&isOpen=
 	 **/
 	public void updataCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		//提供一个List<Category> 转成json字符串
@@ -124,37 +126,11 @@ public class AdminCategoryApi extends BaseServlet{
 		//获得分类名
 		String cname = request.getParameter("cname");
 		cname =  URLDecoder.decode((new String(cname.getBytes("ISO8859-1"), "UTF-8")), "UTF-8");
-
-		Boolean isOK = service.updataCategory(cid,cname);
-		//System.out.println(isOK);
-		
-		BackMassage ms = new BackMassage();
-		if(isOK) {
-			ms.setError(0);
-			ms.setMessage("success");
-		}else {
-			ms.setError(1);
-			ms.setMessage("fail");
-		}
-		Gson gson = new Gson();
-		String json = gson.toJson(ms);
-		response.getWriter().write(json);
-	}
-	/*
-	 *  开启或关闭一个分类
-	 *  http://localhost:7070/Hero_shop_api/categoryApi?method=categoryState&cid=3cc21f25-687a-433a-8a3e-62a0796a15bd&isOpen=1
-	 **/
-	public void categoryState(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		//提供一个List<Category> 转成json字符串
-		
-		AdminService service = (AdminService) BeanFactory.getBean("adminService");
-		//获得分类名
-		String cid = request.getParameter("cid");
-		//获取开启状态
+        //获得开启关闭状态
 		String isOpen = request.getParameter("isOpen");
 		int openStat =   Integer.parseInt(isOpen);
-		
-		Boolean isOK = service.categoryState(cid,openStat);
+		Boolean isOK = service.updataCategory(cid,cname,openStat);
+		//System.out.println(isOK);
 		
 		BackMassage ms = new BackMassage();
 		if(isOK) {

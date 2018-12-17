@@ -17,28 +17,12 @@ import com.itheima.utils.JedisPoolUtils;
 import redis.clients.jedis.Jedis;
 
 public class AdminDao {
-	// category 改
-	public Boolean categoryState(String cid, int openStat) {
+	
+	public Boolean updataCategory(String cid, String cname,int openStat) {
 		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-		String sql = "UPDATE category set isOpen = ? where cid = ? ";
+		String sql = "UPDATE category set cname = ? , isOpen = ? where cid = ? ";
 		try {
-			int res = runner.update(sql,openStat,cid);
-			if(res > 0) {//操作成功清空redis
-				Jedis jedis = JedisPoolUtils.getJedis();
-				jedis.del("categoryListJson");
-			}
-			return res > 0;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
-	public Boolean updataCategory(String cid, String cname) {
-		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-		String sql = "UPDATE category set cname = ? where cid = ? ";
-		try {
-			int res = runner.update(sql,cname,cid);
+			int res = runner.update(sql,cname,openStat,cid);
 			if(res > 0) {
 				Jedis jedis = JedisPoolUtils.getJedis();
 				jedis.del("categoryListJson");

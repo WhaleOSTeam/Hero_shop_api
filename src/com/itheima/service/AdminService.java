@@ -18,8 +18,7 @@ public interface AdminService {
 	public List<Order> findAllOrders();
 
 	public List<Map<String, Object>> findOrderInfoByOid(String oid);
-	public Boolean categoryState(String cid, int openStat);
-	public Boolean updataCategory(String cid, String cname);
+	public Boolean updataCategory(String cid, String cname,int openStat);
 	public List<Category> findCategoryByState(int openStat);
 
 }

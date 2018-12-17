@@ -12,14 +12,9 @@ import com.itheima.service.AdminService;
 
 public class AdminServiceImpl implements AdminService{
 	@Override
-	public Boolean updataCategory(String cid, String cname) {
+	public Boolean updataCategory(String cid, String cname,int openStat) {
 		AdminDao dao = new AdminDao();
-		return dao.updataCategory(cid,cname);
-	}
-	@Override
-	public Boolean categoryState(String cid, int openStat) {
-		AdminDao dao = new AdminDao();
-		return dao.categoryState(cid,openStat);
+		return dao.updataCategory(cid,cname,openStat);
 	}
 	@Override
 	public Boolean addCategory(Category c) throws SQLException{
